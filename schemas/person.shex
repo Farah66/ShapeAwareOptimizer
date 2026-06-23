@@ -1,0 +1,22 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+PREFIX kdsf: <http://kerndatensatz-forschung.de/owl/Basis#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+<PersonShape> {
+    rdf:type [foaf:Person] ;
+    rdfs:label xsd:string *
+}
+
+<PublicationShape> {
+    rdf:type [kdsf:Publikation] ;
+    rdfs:label xsd:string * ;
+    dc:creator @<PersonShape> +
+}
+
+<AuthorshipShape> {
+    rdf:type [vivo:Authorship] ;
+    vivo:relates @<PersonShape> +
+}

@@ -1,0 +1,7 @@
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+SELECT ?authorship ?person
+WHERE {
+    ?authorship vivo:relates ?person .
+}
+LIMIT 1000

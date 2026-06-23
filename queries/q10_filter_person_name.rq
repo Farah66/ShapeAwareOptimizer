@@ -1,0 +1,10 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+SELECT ?person ?name
+WHERE {
+  ?person vivo:orcidId ?orcid .
+  ?person foaf:name ?name .
+  FILTER(CONTAINS(LCASE(STR(?name)), "a"))
+}
+LIMIT 50

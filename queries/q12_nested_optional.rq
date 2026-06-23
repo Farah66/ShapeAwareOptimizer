@@ -1,0 +1,15 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+SELECT ?person ?name ?email ?org
+WHERE {
+  ?person vivo:orcidId ?orcid .
+  ?person foaf:name ?name .
+  OPTIONAL {
+    ?person foaf:mbox ?email .
+    OPTIONAL {
+      ?person vivo:relatedBy ?org .
+    }
+  }
+}
+LIMIT 50

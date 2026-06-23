@@ -1,0 +1,11 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+SELECT ?person ?name ?authorship ?publication ?title
+WHERE {
+  ?person vivo:relatedBy ?authorship .
+  ?authorship vivo:relates ?publication .
+  ?publication vivo:title ?title .
+  ?person foaf:name ?name .
+}
+LIMIT 50

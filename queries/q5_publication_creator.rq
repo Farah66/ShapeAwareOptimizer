@@ -1,0 +1,7 @@
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+SELECT ?pub ?person
+WHERE {
+    ?pub dc:creator ?person .
+}
+LIMIT 1000

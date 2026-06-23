@@ -1,0 +1,7 @@
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+
+SELECT ?person ?orcid
+WHERE {
+    ?person vivo:orcidId ?orcid .
+}
+LIMIT 10
