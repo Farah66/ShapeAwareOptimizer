@@ -30,23 +30,43 @@ class QueryRewriter:
 
         return unique_triples
 
+    # def reorder_joins(self, triples):
+    #     def triple_score(triple):
+    #         s, p, o = triple
+    #         p = self.normalize_predicate(p)
+
+    #         if p == "rdf:type":
+    #             return 0
+
+    #         if p == "vivo:orcidId":
+    #             return 1
+
+    #         if not o.startswith("?"):
+    #             return 2
+
+    #         return 3
+
+    #     return sorted(triples, key=triple_score)
+    
     def reorder_joins(self, triples):
+        score_map = {}
+
+        for mapping in self.constraint_mappings:
+            triple = mapping["triple_pattern"]
+            s, p, o = triple
+            normalized_triple = (s, self.normalize_predicate(p), o)
+            score_map[normalized_triple] = mapping.get("predicate_score", 1)
+
         def triple_score(triple):
             s, p, o = triple
             p = self.normalize_predicate(p)
 
             if p == "rdf:type":
-                return 0
-
-            if p == "vivo:orcidId":
-                return 1
-
-            if not o.startswith("?"):
                 return 2
 
-            return 3
+            return score_map.get((s, p, o), 1)
 
-        return sorted(triples, key=triple_score)
+        return sorted(triples, key=triple_score, reverse=True)
 
     def rewrite_required_triples(self):
         rewritten_triples = []

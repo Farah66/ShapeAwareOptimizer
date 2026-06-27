@@ -12,7 +12,20 @@ class ConstraintExtractor:
         if predicate == "a":
             return "rdf:type"
         return predicate
+    
+    def get_predicate_score(self, predicate):
+        predicate = self.normalize_predicate(predicate)
 
+        scores = {
+            "dc:creator": 3,
+            "vivo:relates": 3,
+            "vivo:orcidId": 3,
+            "vivo:confirmedOrcidId": 3,
+            "rdf:type": 2,
+            "rdfs:label": 1
+        }
+
+        return scores.get(predicate, 1)
     def get_all_constraints(self):
         all_constraints = []
 
@@ -46,7 +59,8 @@ class ConstraintExtractor:
 
             mappings.append({
                 "triple_pattern": triple,
-                "matched_constraint": matched_constraint
+                "matched_constraint": matched_constraint,
+                "predicate_score": self.get_predicate_score(normalized_predicate)
             })
 
         return mappings

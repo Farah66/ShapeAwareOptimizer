@@ -166,10 +166,20 @@ class RuleSelector:
             for rule in selected_rules
         )
 
-        if len(normal_triples) > 1 or type_injection_selected:
+        # if len(normal_triples) > 1 or type_injection_selected:
+        #     selected_rules.append({
+        #         "rule": "JOIN_REORDERING",
+        #         "reason": "JOIN_REORDERING selected because multiple required triple patterns were detected and can be safely reordered."
+        #     })
+        has_scores = any(
+            "predicate_score" in mapping
+            for mapping in self.constraint_mappings
+        )
+
+        if (len(normal_triples) > 1 or type_injection_selected) and has_scores:
             selected_rules.append({
                 "rule": "JOIN_REORDERING",
-                "reason": "JOIN_REORDERING selected because multiple required triple patterns were detected and can be safely reordered."
+                "reason": "JOIN_REORDERING selected because predicate ranking scores were extracted from ShEx constraints."
             })
 
         filters = self.parsed_query.get("filters", [])
